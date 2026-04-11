@@ -4,6 +4,7 @@ const cors = require('cors');
 require('./utils/MongooseUtil');
 const ProductDAO = require('./models/ProductDAO');
 require('dotenv').config();
+const path = require('path');
 
 const app = express();
 const PORT = process.env.PORT || 3000;
@@ -36,7 +37,18 @@ app.get('/categories', async (req, res) => {
     .toArray();
   res.json(categories);
 });
+// 1. Phục vụ giao diện ADMIN khi truy cập /admin
+// Thay 'build' bằng 'dist' nếu bạn dùng Vite
+app.use('/admin', express.static(path.join(__dirname, '../client-admin/build')));
+app.get('/admin/*', (req, res) => {
+  res.sendFile(path.join(__dirname, '../client-admin/build', 'index.html'));
+});
 
+// 2. Phục vụ giao diện CUSTOMER cho trang chủ và các đường dẫn còn lại
+app.use(express.static(path.join(__dirname, '../client-customer/build')));
+app.get('*', (req, res) => {
+  res.sendFile(path.join(__dirname, '../client-customer/build', 'index.html'));
+});
 app.listen(PORT, () => {
   console.log(` Server running at http://localhost:${PORT}`);
 });
