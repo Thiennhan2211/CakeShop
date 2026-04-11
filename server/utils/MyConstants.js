@@ -9,7 +9,7 @@ const MyConstants = {
   EMAIL_USER: process.env.EMAIL_USER,
   EMAIL_PASS: process.env.EMAIL_PASS,
 
-  CLIENT_CUSTOMER_URL: 'http://localhost:3002',
+  CLIENT_CUSTOMER_URL: process.env.CLIENT_URL,
 
   JWT_SECRET: process.env.JWT_SECRET,
   JWT_EXPIRES: '1h'

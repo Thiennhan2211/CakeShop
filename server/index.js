@@ -3,6 +3,7 @@ const mongoose = require('mongoose');
 const cors = require('cors');
 require('./utils/MongooseUtil');
 const ProductDAO = require('./models/ProductDAO');
+require('dotenv').config();
 
 const app = express();
 const PORT = process.env.PORT || 3000;
