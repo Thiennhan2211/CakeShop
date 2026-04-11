@@ -1,14 +1,17 @@
-const MyConstants = {
-  DB_SERVER: 'cluster0.ievaog8.mongodb.net',
-  DB_USER: 'cake_db',
-  DB_PASS: 'thiennhan27',
-  DB_DATABASE: 'cakeshop',
+require('dotenv').config();
 
-  EMAIL_USER: 'thiennhan105295@gmail.com',
-  EMAIL_PASS: 'onmh aoqn ixxs bgun',
+const MyConstants = {
+  DB_SERVER: process.env.DB_SERVER,
+  DB_USER: process.env.DB_USER,
+  DB_PASS: process.env.DB_PASS,
+  DB_DATABASE: process.env.DB_DATABASE,
+
+  EMAIL_USER: process.env.EMAIL_USER,
+  EMAIL_PASS: process.env.EMAIL_PASS,
+
   CLIENT_CUSTOMER_URL: 'http://localhost:3002',
 
-  JWT_SECRET: 'secret',
+  JWT_SECRET: process.env.JWT_SECRET,
   JWT_EXPIRES: '1h'
 };
 
