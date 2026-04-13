@@ -46,6 +46,10 @@ const normalizeObjectId = (value) => {
   return value;
 };
 
+const escapeRegExp = (value = '') => {
+  return value.toString().replace(/[.*+?^${}()|[\]\\]/g, '\\$&');
+};
+
 let ensureSizesPromise = null;
 
 const ensureProductSizesField = async () => {
@@ -299,8 +303,18 @@ const ProductDAO = {
   },
   async selectByKeyword(keyword) {
     await this.ensureSizeFieldExists();
+    const normalizedKeyword = (keyword || '').toString().trim();
+
+    if (!normalizedKeyword) {
+      return [];
+    }
+
+    const expression = new RegExp(escapeRegExp(normalizedKeyword), 'i');
     const query = {
-      name: { $regex: new RegExp(keyword, 'i') }
+      $or: [
+        { name: { $regex: expression } },
+        { 'category.name': { $regex: expression } }
+      ]
     };
     const products = await Models.Product.find(query).lean().exec();
     return normalizeProductList(products);

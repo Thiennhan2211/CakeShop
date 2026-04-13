@@ -8,6 +8,7 @@ import Category from './CategoryComponent';
 import Order from './OrderComponent';
 import Customer from './CustomerComponent';
 import Voucher from './VoucherComponent';
+import ScrollTopButton from './ScrollTopButton';
 
 class Main extends Component {
   static contextType = MyContext;
@@ -28,6 +29,7 @@ class Main extends Component {
               <Route path="/admin/voucher" element={<Voucher />} />
             </Routes>
           </main>
+          <ScrollTopButton />
         </div>
       );
     }

@@ -14,6 +14,7 @@ import Contact from './ContactComponent';
 import News from './NewsComponent';
 import Checkout from './StoreCheckoutV2Component';
 import CheckoutSuccess from './StoreCheckoutSuccessComponent';
+import ScrollTopButton from './ScrollTopButton';
 
 class Main extends Component {
   render() {
@@ -43,6 +44,7 @@ class Main extends Component {
           </div>
         </main>
         <Footer />
+        <ScrollTopButton />
       </div>
     );
   }

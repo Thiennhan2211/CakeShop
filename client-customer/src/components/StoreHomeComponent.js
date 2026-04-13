@@ -5,22 +5,47 @@ import PageIntro from './PageIntroComponent';
 import StoreProductCollection from './StoreProductCollectionComponent';
 import StorefrontHelper from '../utils/StorefrontHelper';
 
+const FEATURED_LIMIT = 3;
+const SPOTLIGHT_LIMIT = 4;
+
+const extractProducts = (result, limit) => {
+  if (result.status !== 'fulfilled') {
+    return [];
+  }
+
+  const products = Array.isArray(result.value?.data) ? result.value.data : [];
+  return products.slice(0, limit);
+};
+
 function StoreHome() {
   const [newProducts, setNewProducts] = useState([]);
   const [hotProducts, setHotProducts] = useState([]);
+  const [tiramisuProducts, setTiramisuProducts] = useState([]);
+  const [mousseProducts, setMousseProducts] = useState([]);
 
   useEffect(() => {
-    axios.get('/api/customer/products/new').then((res) => {
-      setNewProducts(res.data || []);
-    }).catch(() => {
-      setNewProducts([]);
+    let ignore = false;
+
+    Promise.allSettled([
+      axios.get('/api/customer/products/new'),
+      axios.get('/api/customer/products/hot'),
+      axios.get(`/api/customer/products/search/${encodeURIComponent('tiramisu')}`),
+      axios.get(`/api/customer/products/search/${encodeURIComponent('mousse')}`)
+    ]).then((results) => {
+      if (ignore) {
+        return;
+      }
+
+      const [newResult, hotResult, tiramisuResult, mousseResult] = results;
+      setNewProducts(extractProducts(newResult, FEATURED_LIMIT));
+      setHotProducts(extractProducts(hotResult, FEATURED_LIMIT));
+      setTiramisuProducts(extractProducts(tiramisuResult, SPOTLIGHT_LIMIT));
+      setMousseProducts(extractProducts(mousseResult, SPOTLIGHT_LIMIT));
     });
 
-    axios.get('/api/customer/products/hot').then((res) => {
-      setHotProducts(res.data || []);
-    }).catch(() => {
-      setHotProducts([]);
-    });
+    return () => {
+      ignore = true;
+    };
   }, []);
 
   const heroProducts = useMemo(() => {
@@ -77,6 +102,25 @@ function StoreHome() {
           subtitle="Best seller"
           products={hotProducts}
           emptyMessage="Chưa có sản phẩm nổi bật."
+          sectionClassName="showcase-section--accent"
+        />
+      ) : null}
+
+      {tiramisuProducts.length > 0 ? (
+        <StoreProductCollection
+          title="B\u00E1nh tiramisu"
+          subtitle="\u0110\u1EADm v\u1ECB, m\u1EC1m m\u1ECBn"
+          products={tiramisuProducts}
+          emptyMessage="Hi\u1EC7n ch\u01B0a c\u00F3 d\u00F2ng b\u00E1nh tiramisu."
+        />
+      ) : null}
+
+      {mousseProducts.length > 0 ? (
+        <StoreProductCollection
+          title="B\u00E1nh mousse"
+          subtitle="Thanh m\u00E1t, nh\u1EB9 nh\u00E0ng"
+          products={mousseProducts}
+          emptyMessage="Hi\u1EC7n ch\u01B0a c\u00F3 d\u00F2ng b\u00E1nh mousse."
           sectionClassName="showcase-section--accent"
         />
       ) : null}
