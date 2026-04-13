@@ -108,19 +108,19 @@ function StoreHome() {
 
       {tiramisuProducts.length > 0 ? (
         <StoreProductCollection
-          title="B\u00E1nh tiramisu"
-          subtitle="\u0110\u1EADm v\u1ECB, m\u1EC1m m\u1ECBn"
+          title="Bánh tiramisu"
+          subtitle="Đậm vị, mềm mịn"
           products={tiramisuProducts}
-          emptyMessage="Hi\u1EC7n ch\u01B0a c\u00F3 d\u00F2ng b\u00E1nh tiramisu."
+          emptyMessage="Hiện chưa có dòng bánh tiramisu."
         />
       ) : null}
 
       {mousseProducts.length > 0 ? (
         <StoreProductCollection
-          title="B\u00E1nh mousse"
-          subtitle="Thanh m\u00E1t, nh\u1EB9 nh\u00E0ng"
+          title="Bánh mousse"
+          subtitle="Thanh mát, nhẹ nhàng"
           products={mousseProducts}
-          emptyMessage="Hi\u1EC7n ch\u01B0a c\u00F3 d\u00F2ng b\u00E1nh mousse."
+          emptyMessage="Hiện chưa có dòng bánh mousse."
           sectionClassName="showcase-section--accent"
         />
       ) : null}
